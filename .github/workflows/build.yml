@@ -1,0 +1,46 @@
+name: Builds, tests & co
+
+
+on:
+  - pull_request
+  - push
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - macos-latest
+          - ubuntu-latest
+          - windows-latest
+        ocaml-compiler:
+          - "5.0"
+          - "4.14"
+        exclude:
+          # No OCaml base compiler packages matched the version 5.0 in the opam-repository yet (2024.07).
+          - os: windows-latest
+            ocaml-compiler: "5.0"
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout tree
+        uses: actions/checkout@v4
+
+      - name: Set-up OCaml
+        uses: ocaml/setup-ocaml@v2
+        with:
+          ocaml-compiler: ${{ matrix.ocaml-compiler }}
+
+      - run: opam install . --deps-only --with-test
+
+      - run: opam exec -- dune build bin/main.bc.js
+
+      - run: opam exec -- dune runtest
+
+      - name: Upload the build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.os }}-${{ matrix.ocaml-compiler }}-main.bc.js
+          path: _build/default/bin/main.bc.js
