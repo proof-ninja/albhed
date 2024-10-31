@@ -2,7 +2,7 @@ open Js_of_ocaml
 
 let button_text = "アルベド語をツイートする"
 
-let hashtag = Url.urlencode "アルベド語翻訳"
+let hashtag = Url.urlencode "アルベド語"
 
 let body text =
   Printf.sprintf {|%s
