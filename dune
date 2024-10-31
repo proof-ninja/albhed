@@ -1,0 +1,7 @@
+(alias
+ (name default)
+ (deps
+  bin/main.bc.js
+  index.html
+  (glob_files statics/*))
+)

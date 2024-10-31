@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <script type="text/javascript" src="bin/main.bc.js"></script>
+    <link href="statics/style.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+<form id="translator">
+  <div class="container">
+    <div class="head">
+      <h2>アルベド語 翻訳</h2>
+    </div>
+    <label for="albhed">アルベド語</label><br />
+    <textarea id="albhed" name="al" placeholder="マギレヤキセ"></textarea><br />
+
+    <input type="radio" id="al2ja" name="lang" value="al2ja" checked />
+    <label for="al2ja">↓アル日翻訳</label>
+    <input type="radio" id="ja2al" name="lang" value="ja2al" />
+    <label for="ja2al">↑日アル翻訳</label><br />
+
+    <textarea id="japanese" name="ja"></textarea><br />
+
+    <div class="message">Message Sent</div>
+    <button id="submit" type="submit">翻訳!</button>
+
+    <div id="tweet"></div>
+  </div>
+</form>
+  </body>
+</html>
