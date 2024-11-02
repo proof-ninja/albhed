@@ -1,3 +1,5 @@
+open Util
+
 type lang = Albhed_to_Ja | Ja_to_Albhed
 
 let table = [ (*c.f. https://www.jp.square-enix.com/column/detail/3/ *)

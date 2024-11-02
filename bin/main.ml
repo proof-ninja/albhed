@@ -1,5 +1,21 @@
 open Js_of_ocaml
+open Util
 open Translate
+
+let tw_btn lang text =
+  let button_text = "このアルベド語をツイートする" in
+  let hashtag = "アルベド語" in
+  let body text = Printf.sprintf "%s\n\n翻訳をみる → " text in
+  let link =
+    let query =
+      match lang with
+      | Translate.Albhed_to_Ja -> Url.encode_arguments [("lang", "al2ja"); ("al", text)]
+      | Ja_to_Albhed -> Url.encode_arguments [("lang", "ja2al"); ("ja", text)]
+    in
+    let base = "proof-ninja.github.io/albhed" in
+    "https://" ^ base ^ "?" ^ query
+  in
+  Tweet_button.post_button ~link ~hashtag (body text) button_text
 
 let get_params () : (string * string) list = Url.Current.arguments
 let query key params = List.assoc_opt key params
@@ -19,12 +35,12 @@ let operator_of_params params =
 
 let init () =
   print_endline "init";
-  (Dom_html.getElementById_exn "tweet")##.innerHTML := Js.string (Tweet_button.show Albhed_to_Ja "マギレヤキセ");
+  (Dom_html.getElementById_exn "tweet")##.innerHTML := Js.string (tw_btn Albhed_to_Ja "マギレヤキセ");
   ()
 let translate lang src =
   print_endline "translate";
   let dst = Translate.f lang src in
-  (Dom_html.getElementById_exn "tweet")##.innerHTML := Js.string (Tweet_button.show lang src);
+  (Dom_html.getElementById_exn "tweet")##.innerHTML := Js.string (tw_btn lang src);
   match lang with
   | Albhed_to_Ja ->
      (Dom_html.getElementById_exn "japanese")##.innerText := Js.string dst;
